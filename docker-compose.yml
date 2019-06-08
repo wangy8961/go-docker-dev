@@ -1,0 +1,21 @@
+version: "3.7"
+services:
+
+  go-example:
+    # building image from ./Dockerfile, and change network mode to 'host', because 'go get' need proxy in Dockerfile
+    build:
+      context: .
+      network: host
+    # specify the image name after builded
+    image: go-docker-dev:latest
+    ports:
+      - "50051:50051"
+    # go-example is your Golang project name,
+    # don't change the target path '/app', because 'reflex' will go to there and then run 'go build .'
+    volumes:
+      - "$PWD/go-example:/app"
+    # specify container name
+    container_name: go-example
+    # environment file
+    env_file:
+      - .env
